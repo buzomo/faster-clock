@@ -1,0 +1,212 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.5x Speed Analog Clock</title>
+    <link rel="icon"
+          href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⏲%3C/text%3E%3C/svg%3E"
+          type="image/svg+xml">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            overflow: hidden;
+            color: #333;
+        }
+        .description {
+            position: absolute;
+            top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            width: 100%;
+        }
+        .clock-container {
+            position: relative;
+            width: 80vmin;
+            height: 80vmin;
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .clock {
+            width: 100%;
+            height: 100%;
+            border: 6px solid #34495e;
+            border-radius: 50%;
+            position: relative;
+            background-color: white;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: 50% 100%;
+        }
+        .hour {
+            width: calc(1vmin + 8px);
+            height: 25%;
+            margin-left: calc(-0.5vmin - 4px);
+            background-color: #34495e;
+            border-radius: 3px;
+        }
+        .minute {
+            width: calc(0.6vmin + 6px);
+            height: 35%;
+            margin-left: calc(-0.3vmin - 3px);
+            background-color: #34495e;
+            border-radius: 2px;
+        }
+        .second {
+            width: calc(0.4vmin + 4px);
+            height: 40%;
+            margin-left: calc(-0.2vmin - 2px);
+            background-color: #e74c3c;
+            border-radius: 1px;
+        }
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            margin-left: -6px;
+            margin-top: -6px;
+            background-color: #34495e;
+            border-radius: 50%;
+            z-index: 10;
+            border: 2px solid white;
+        }
+        .number {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            font-size: 4vmin;
+            font-weight: bold;
+            color: #34495e;
+        }
+        .time-display {
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 6vmin;
+            font-weight: bold;
+            color: rgba(127, 140, 141, 0.8);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            z-index: 5;
+        }
+        .fullscreen-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #34495e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+        }
+        .fullscreen-button:hover {
+            background-color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="description">
+        This is a 1.5x speed analog clock. The clock runs faster than real time to help with time management and focus.
+    </div>
+    <div class="clock-container">
+        <div class="clock">
+            <div class="hand hour" id="hour"></div>
+            <div class="hand minute" id="minute"></div>
+            <div class="hand second" id="second"></div>
+            <div class="center"></div>
+            <div class="time-display" id="timeDisplay">00:00</div>
+            <!-- Dial numbers -->
+            <div class="number" style="transform: rotate(30deg);"><span style="transform: rotate(-30deg); display: inline-block; margin-top: 7%;">1</span></div>
+            <div class="number" style="transform: rotate(60deg);"><span style="transform: rotate(-60deg); display: inline-block; margin-top: 7%;">2</span></div>
+            <div class="number" style="transform: rotate(90deg);"><span style="transform: rotate(-90deg); display: inline-block; margin-top: 7%;">3</span></div>
+            <div class="number" style="transform: rotate(120deg);"><span style="transform: rotate(-120deg); display: inline-block; margin-top: 7%;">4</span></div>
+            <div class="number" style="transform: rotate(150deg);"><span style="transform: rotate(-150deg); display: inline-block; margin-top: 7%;">5</span></div>
+            <div class="number" style="transform: rotate(180deg);"><span style="transform: rotate(-180deg); display: inline-block; margin-top: 7%;">6</span></div>
+            <div class="number" style="transform: rotate(210deg);"><span style="transform: rotate(-210deg); display: inline-block; margin-top: 7%;">7</span></div>
+            <div class="number" style="transform: rotate(240deg);"><span style="transform: rotate(-240deg); display: inline-block; margin-top: 7%;">8</span></div>
+            <div class="number" style="transform: rotate(270deg);"><span style="transform: rotate(-270deg); display: inline-block; margin-top: 7%;">9</span></div>
+            <div class="number" style="transform: rotate(300deg);"><span style="transform: rotate(-300deg); display: inline-block; margin-top: 7%;">10</span></div>
+            <div class="number" style="transform: rotate(330deg);"><span style="transform: rotate(-330deg); display: inline-block; margin-top: 7%;">11</span></div>
+            <div class="number" style="transform: rotate(0deg);"><span style="transform: rotate(0deg); display: inline-block; margin-top: 7%;">12</span></div>
+        </div>
+    </div>
+    <button class="fullscreen-button" id="fullscreenButton" title="Toggle Fullscreen">⛶</button>
+
+    <script>
+        const hourHand = document.getElementById('hour');
+        const minuteHand = document.getElementById('minute');
+        const secondHand = document.getElementById('second');
+        const timeDisplay = document.getElementById('timeDisplay');
+        const fullscreenButton = document.getElementById('fullscreenButton');
+
+        let startTime = new Date();
+
+        function updateClock() {
+            const now = new Date();
+            const elapsedSeconds = (now - startTime) / 1000;
+            const fastElapsedSeconds = elapsedSeconds * 1.5;
+
+            // Calculate fast time
+            const fastTime = new Date(startTime.getTime() + fastElapsedSeconds * 1000);
+            const fastHours = fastTime.getHours();
+            const fastMinutes = fastTime.getMinutes();
+            const fastSeconds = fastTime.getSeconds();
+
+            const hourDeg = (fastHours % 12 * 30) + (fastMinutes * 0.5);
+            const minuteDeg = fastMinutes * 6;
+            const secondDeg = fastSeconds * 6;
+
+            hourHand.style.transform = `translateX(-50%) rotate(${hourDeg}deg)`;
+            minuteHand.style.transform = `translateX(-50%) rotate(${minuteDeg}deg)`;
+            secondHand.style.transform = `translateX(-50%) rotate(${secondDeg}deg)`;
+
+            // Format time string in 24-hour format
+            const formatTime = (date) => {
+                return date.toLocaleTimeString('en-US', {hour12: false, hour: '2-digit', minute:'2-digit'});
+            };
+
+            timeDisplay.textContent = formatTime(fastTime);
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.error(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        fullscreenButton.addEventListener('click', toggleFullscreen);
+
+        setInterval(updateClock, 1000); // Update every second
+    </script>
+</body>
+</html>
